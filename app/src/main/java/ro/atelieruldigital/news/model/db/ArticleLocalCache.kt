@@ -1,20 +1,20 @@
 package ro.atelieruldigital.news.model.db
 import androidx.paging.DataSource
-import ro.atelieruldigital.news.model.Article
+import ro.atelieruldigital.news.model.News
 import java.util.concurrent.Executor
 /**
  * This class servers as an abstraction over the room database data source
  */
 class ArticleLocalCache(private val dao: ArticleDao, private val ioExecutor: Executor) {
 
-    fun insert(articles: List<Article>, finished: () -> Unit) {
+    fun insert(news: List<News>, finished: () -> Unit) {
         ioExecutor.execute {
-            dao.addArticles(articles)
+            dao.addArticles(news)
             finished()
         }
     }
 
-    fun articles() : DataSource.Factory<Int, Article> {
+    fun news() : DataSource.Factory<Int, News> {
         return dao.articles()
     }
     //TODO("Sort")

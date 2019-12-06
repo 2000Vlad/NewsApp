@@ -1,5 +1,7 @@
 package ro.atelieruldigital.news.model.ws;
 
+import androidx.annotation.IntDef
+import androidx.annotation.StringDef
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -10,13 +12,14 @@ import ro.atelieruldigital.news.model.NewsListResponse
 class NewsWebService(val api: NewsApi) {
     private val API_KEY = "121ae9a3461d468ba2158b1a74ef3b93"
 
-    fun queryArticlesByKeywords(
-            contentKeywords: String = "",
+    fun queryNewsByKeywords(
+            contentKeywords: String,
             page: Int,
             pageSize: Int,
-            failure: (Throwable) -> Unit = {},
+            @NewsSort sort: String,
+            failure: (Throwable?) -> Unit = {},
             success: (NewsListResponse?) -> Unit) {
-        api.queryArticlesByKeywords(contentKeywords,null, page, pageSize, API_KEY).enqueue(object : Callback<NewsListResponse> {
+        api.queryNewsByKeywords(contentKeywords, null, sort, page, pageSize, API_KEY).enqueue(object : Callback<NewsListResponse> {
             override fun onFailure(call: Call<NewsListResponse>, t: Throwable) {
                 failure(t)
             }
@@ -24,14 +27,91 @@ class NewsWebService(val api: NewsApi) {
             override fun onResponse(call: Call<NewsListResponse>, response: Response<NewsListResponse>) {
                 if (response.isSuccessful) {
                     success(response.body())
-                }
+                } else failure(null)
             }
 
         })
 
     }
 
+    fun queryNewsByKeywordsInTitle(
+            contentKeywords: String = "",
+            titleKeywords: String,
+            @NewsSort sort: String,
+            page: Int,
+            pageSize: Int,
+            failure: (Throwable?) -> Unit = {},
+            success: (NewsListResponse?) -> Unit
+    ) {
+        api.queryNewsByKeywords(contentKeywords, titleKeywords, sort, page, pageSize, API_KEY)
+                .enqueue(object : Callback<NewsListResponse> {
+                    override fun onFailure(call: Call<NewsListResponse>, t: Throwable) {
+                        failure(t)
+                    }
 
+                    override fun onResponse(call: Call<NewsListResponse>, response: Response<NewsListResponse>) {
+                        if (response.isSuccessful)
+                            success(response.body())
+                        else failure(null)
+                    }
+                }
+
+                )
+    }
+
+    fun queryNewsByLanguage(
+            contentKeywords: String = "",
+            titleKeywords: String = "",
+            language: String,
+            @NewsSort sort: String,
+            page: Int,
+            pageSize: Int,
+            failure: (Throwable?) -> Unit = {},
+            success: (NewsListResponse?) -> Unit
+    ) {
+        api.queryNewsByLanguage(contentKeywords, titleKeywords, language, sort, page, pageSize, API_KEY)
+                .enqueue(
+                        object : Callback<NewsListResponse> {
+                            override fun onFailure(call: Call<NewsListResponse>, t: Throwable) {
+                                failure(t)
+                            }
+
+                            override fun onResponse(call: Call<NewsListResponse>, response: Response<NewsListResponse>) {
+                                if (response.isSuccessful)
+                                    success(response.body())
+                                else failure(null)
+                            }
+                        }
+                )
+
+    }
+
+    fun queryHeadlines(
+            contentKeywords: String = "",
+            titleKeywords: String = "",
+            category: String = "",
+            country: String,
+            page: Int,
+            pageSize: Int,
+            failure: (Throwable?) -> Unit,
+            success: (NewsListResponse?) -> Unit
+    ) {
+        api.queryHeadlines(contentKeywords, titleKeywords, category, country, page, pageSize, API_KEY)
+                .enqueue(
+                        object : Callback<NewsListResponse> {
+                            override fun onFailure(call: Call<NewsListResponse>, t: Throwable) {
+                                failure(t)
+                            }
+
+                            override fun onResponse(call: Call<NewsListResponse>, response: Response<NewsListResponse>) {
+                                if(response.isSuccessful)
+                                    success(response.body())
+                                else failure(null)
+                            }
+                        }
+                )
+
+    }
 
 
 }
@@ -39,9 +119,10 @@ class NewsWebService(val api: NewsApi) {
 interface NewsApi {
 
     @GET("v2/everything")
-    fun queryArticlesByKeywords(
+    fun queryNewsByKeywords(
             @Query("q") keywords: String,
             @Query("qInTitle") titleKeywords: String?,
+            @Query("sortBy") sort: String,
             @Query("page") page: Int,
             @Query("pageSize") pageSize: Int,
             @Query("apiKey") apiKey: String
@@ -49,14 +130,37 @@ interface NewsApi {
 
 
     @GET("v2/everything")
-    fun queryArticlesByLanguage(
+    fun queryNewsByLanguage(
             @Query("q") keywords: String?,
             @Query("qInTitle") titleKeywords: String?,
             @Query("language") lang: String, //ISO-639-1 language code
+            @Query("sortBy") sort: String,
             @Query("page") page: Int,
             @Query("pageSize") pageSize: Int,
             @Query("apiKey") apiKey: String
     ): Call<NewsListResponse>
 
+    @GET("v2/headlines")
+    fun queryHeadlines(
+            @Query("q") keywords: String?,
+            @Query("qInTitle") titleKeywords: String?,
+            @Query("category") category: String?,
+            @Query("country") country: String,      // ISO 3166-1 country code
+            @Query("page") page: Int,
+            @Query("pageSize") pageSize: Int,
+            @Query("apiKey") apiKey: String
+    ): Call<NewsListResponse>
 
 }
+
+const val PUBLISH_DATE = "publishedAt"
+const val RELEVANCY = "relevancy"
+const val POPULARITY = "popularity"
+
+@Target(
+        AnnotationTarget.FUNCTION,
+        AnnotationTarget.PROPERTY,
+        AnnotationTarget.VALUE_PARAMETER
+)
+@StringDef(PUBLISH_DATE, RELEVANCY, POPULARITY)
+annotation class NewsSort

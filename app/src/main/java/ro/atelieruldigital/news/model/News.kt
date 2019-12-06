@@ -3,8 +3,8 @@ package ro.atelieruldigital.news.model
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "articles")
-data class Article(
+@Entity(tableName = "news")
+data class News(
         @SerializedName("source") val source: ArticleSource,
         @SerializedName("author") val author: String,
         @SerializedName("title") val title: String,

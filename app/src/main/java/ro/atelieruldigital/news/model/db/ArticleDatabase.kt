@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ro.atelieruldigital.news.model.Article
+import ro.atelieruldigital.news.model.News
 
 /**
  * Web service will insert into database and the database will be observed by UI
  */
-@Database(entities = [Article::class], version = 1)
+@Database(entities = [News::class], version = 1)
 abstract class ArticleDatabase : RoomDatabase(){
     abstract fun articleDao() : ArticleDao
 
