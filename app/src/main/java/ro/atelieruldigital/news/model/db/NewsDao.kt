@@ -8,7 +8,7 @@ import androidx.room.Query
 import ro.atelieruldigital.news.model.News
 
 @Dao
-interface ArticleDao {
+interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addArticles(news: List<News>)
 

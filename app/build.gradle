@@ -49,6 +49,7 @@ dependencies {
 
     // AndroidX
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation 'com.google.android.material:material:1.0.0'
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
     implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -10,18 +10,18 @@ import ro.atelieruldigital.news.model.News
  * Web service will insert into database and the database will be observed by UI
  */
 @Database(entities = [News::class], version = 1)
-abstract class ArticleDatabase : RoomDatabase(){
-    abstract fun articleDao() : ArticleDao
+abstract class NewsDatabase : RoomDatabase(){
+    abstract fun articleDao() : NewsDao
 
     companion object {
-        private val INSTANCE : ArticleDatabase? = null
+        private val INSTANCE : NewsDatabase? = null
         private val lock : Any = Any()
-       fun getInstance(context: Context) : ArticleDatabase  {
+       fun getInstance(context: Context) : NewsDatabase  {
             if(INSTANCE != null)
                 return INSTANCE
             else {
                 synchronized(lock) {
-                    return Room.databaseBuilder(context, ArticleDatabase::class.java, "articledb")
+                    return Room.databaseBuilder(context, NewsDatabase::class.java, "newsdb")
                             .build()
                 }
             }

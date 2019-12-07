@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">AD News</string>
+  <string name="base_url">https://newsapi.org</string>
 </resources>
