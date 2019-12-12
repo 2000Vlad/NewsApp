@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ro.atelieruldigital.news.BuildConfig
 import ro.atelieruldigital.news.R
+import ro.atelieruldigital.news.home.KeywordWatcher
 import ro.atelieruldigital.news.home.NewsViewModel
 import ro.atelieruldigital.news.home.NewsViewModelFactory
 import ro.atelieruldigital.news.model.NewsRepository
@@ -21,6 +22,7 @@ import java.util.concurrent.Executors
 
 @Module
 open class NewsModule(val application: Application, val factivity: FragmentActivity) {
+
 
     @Provides
     fun provideDao(): NewsDao = NewsDatabase.getInstance(application).articleDao()

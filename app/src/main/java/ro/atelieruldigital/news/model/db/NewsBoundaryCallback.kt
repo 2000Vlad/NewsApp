@@ -54,8 +54,8 @@ class NewsBoundaryCallback(
                 titleKeywords,
                 null,
                 s,
-                null,
-                null,
+                old?.toString(), // Here we will do proper time formatting
+                new?.toString(),
                 null,
                 lastPage,
                 NETWORK_PAGE_SIZE) {

@@ -2,25 +2,77 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:id="@+id/basic_search"
+    android:layout_width="match_parent"
+    android:layout_height="136dp"
+    android:background="#00008B">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/keyword_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/search_box_background"
+        android:ems="7"
+        android:inputType="textPersonName"
+        android:padding="4dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        tools:text="Search" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/search_button_background"
+        app:layout_constraintBottom_toBottomOf="@+id/keyword_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/keyword_et"
+        app:srcCompat="@drawable/ic_search_black_24dp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/keyword_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/keyword_et"
+        app:layout_constraintEnd_toEndOf="@+id/keyword_et"
+        app:layout_constraintStart_toStartOf="@+id/keyword_et"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Title"
+        android:buttonTint="@color/basic_search_accent"
+        tools:checked="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keyword_et"
+        app:layout_constraintEnd_toStartOf="@+id/keyword_et"
+        app:layout_constraintTop_toTopOf="@+id/keyword_et" />
+
+    <ro.atelieruldigital.news.home.widgets.NewsSwitch
+        android:id="@+id/newsSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:allNewsTint="@android:color/holo_orange_light"
+        app:drawable="@drawable/ic_news_switch"
+
+        app:headlinesTint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:state="HEADLINE" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        android:textColor="@android:color/holo_blue_dark"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
